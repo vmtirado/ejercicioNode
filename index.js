@@ -8,7 +8,10 @@ let jsonClientes;
 
 let getData=(callback)=>{
     console.log("Entre a la funcion");
-    axios.get(urlProveedores).then(response=>callback(response));
+    axios.get(urlProveedores).then(response=>{
+        response.json();
+        callback(response);
+    });
 
 }
 
@@ -23,12 +26,13 @@ fs.readFile('./index.html',  (err, data)=> {
         let html="";
         getData((proveedores)=>{
             console.log(proveedores.length);
-            for(let i=0; proveedores.length;i++ ){
+            for(let i=0; i<proveedores.length;i++ ){
                  html+= "<tr> <td>"+proveedores[i].idproveedor+"</td>"+
                 "<td>"+proveedores[i].nombrecompania+"</td>"+
                 "<td>"+proveedores[i].nombrecontacto+"</td>"+"</tr>"
             }
         });
+        //console.log("Aqui va el h "+ html);
         pageContent=pageContent.replace("{{replace}}",html) 
         res.write(html); 
         res.end(pageContent.toString());  
